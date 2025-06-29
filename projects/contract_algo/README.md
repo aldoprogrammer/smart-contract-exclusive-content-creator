@@ -1,6 +1,59 @@
-# contract_algo
+# Exclusive Content Creator - Algorand Smart Contract Project
 
-This project has been generated using AlgoKit. See below for default getting started instructions.
+This project is called **Exclusive Content Creator**. It's designed to manage collaborations between brands and creators on the Algorand blockchain by storing contract details such as brand name, creator name, admin, price, and proposal text on-chain.
+
+It was bootstrapped with [AlgoKit](https://github.com/algorandfoundation/algokit-cli), providing a clean workflow for development, testing, and deployment of Algorand smart contracts using TypeScript.
+
+---
+
+## 📌 Features
+
+- Store and manage collaboration contracts on-chain
+- Initialize contracts with brand, creator, admin, price, and proposal text
+- Query contract details via ABI methods
+
+---
+
+## 🧩 Smart Contract Example
+
+Below is the core smart contract for **Exclusive Content Creator**, written in Algorand TypeScript:
+
+```typescript
+import { Contract, GlobalState, uint64, abimethod } from '@algorandfoundation/algorand-typescript';
+
+export class CollaborationContract extends Contract {
+  brandName = GlobalState<string>();
+  creatorName = GlobalState<string>();
+  adminName = GlobalState<string>();
+  contractPrice = GlobalState<uint64>();
+  proposalText = GlobalState<string>();
+
+  @abimethod()
+  public initialize(
+    brandName: string,
+    creatorName: string,
+    adminName: string,
+    contractPrice: uint64,
+    proposalText: string
+  ): void {
+    this.brandName.value = brandName;
+    this.creatorName.value = creatorName;
+    this.adminName.value = adminName;
+    this.contractPrice.value = contractPrice;
+    this.proposalText.value = proposalText;
+  }
+
+  @abimethod()
+  public getDetails(): [string, string, string, uint64, string] {
+    return [
+      this.brandName.value,
+      this.creatorName.value,
+      this.adminName.value,
+      this.contractPrice.value,
+      this.proposalText.value,
+    ];
+  }
+}
 
 # Setup
 
@@ -41,7 +94,7 @@ For example: `algokit project run build -- hello_world` will only build the `hel
 2. **Deploy**: Use `algokit project deploy localnet` to deploy contracts to the local network. You can also specify a specific contract by passing the name of the contract folder as an extra argument.
 For example: `algokit project deploy localnet -- hello_world` will only deploy the `hello_world` contract.
 
-#### VS Code 
+#### VS Code
 For a seamless experience with breakpoint debugging and other features:
 
 1. **Open Project**: In VS Code, open the repository root.
@@ -63,7 +116,7 @@ This project supports both standalone and monorepo setups through AlgoKit worksp
 
 This template provides a set of [algokit generators](https://github.com/algorandfoundation/algokit-cli/blob/main/docs/features/generate.md) that allow you to further modify the project instantiated from the template to fit your needs, as well as giving you a base to build your own extensions to invoke via the `algokit generate` command.
 
-### Generate Smart Contract 
+### Generate Smart Contract
 
 By default the template creates a single `HelloWorld` contract under contract_algo folder in the `smart_contracts` directory. To add a new contract:
 
@@ -75,7 +128,7 @@ By default the template creates a single `HelloWorld` contract under contract_al
 
 ### Generate '.env' files
 
-By default the template instance does not contain any env files to deploy to different networks. Using [`algokit project deploy`](https://github.com/algorandfoundation/algokit-cli/blob/main/docs/features/project/deploy.md) against `localnet` | `testnet` | `mainnet` will use default values for `algod` and `indexer` unless overwritten via `.env` or `.env.{target_network}`. 
+By default the template instance does not contain any env files to deploy to different networks. Using [`algokit project deploy`](https://github.com/algorandfoundation/algokit-cli/blob/main/docs/features/project/deploy.md) against `localnet` | `testnet` | `mainnet` will use default values for `algod` and `indexer` unless overwritten via `.env` or `.env.{target_network}`.
 
 To generate a new `.env` or `.env.{target_network}` file, run `algokit generate env-file`
 
