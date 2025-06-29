@@ -1,0 +1,231 @@
+#pragma version 10
+#pragma typetrack false
+
+// @algorandfoundation/algorand-typescript/arc4/index.d.ts::Contract.approvalProgram() -> uint64:
+main:
+    intcblock 0 1
+    bytecblock "brandName" "creatorName" "adminName" "contractPrice" "proposalText"
+    // smart_contracts/contract_algo/contract.algo.ts:3
+    // export class CollaborationContract extends Contract {
+    txn NumAppArgs
+    bz main_bare_routing@7
+    pushbytess 0x31c24fa4 0x5505a030 // method "initialize(string,string,string,uint64,string)void", method "getDetails()(string,string,string,uint64,string)"
+    txna ApplicationArgs 0
+    match main_initialize_route@3 main_getDetails_route@4
+
+main_after_if_else@11:
+    // smart_contracts/contract_algo/contract.algo.ts:3
+    // export class CollaborationContract extends Contract {
+    intc_0 // 0
+    return
+
+main_getDetails_route@4:
+    // smart_contracts/contract_algo/contract.algo.ts:25
+    // @abimethod()
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    callsub getDetails
+    dig 4
+    len
+    itob
+    extract 6 2
+    uncover 5
+    concat
+    dig 4
+    len
+    itob
+    extract 6 2
+    uncover 5
+    concat
+    dig 4
+    len
+    itob
+    extract 6 2
+    uncover 5
+    concat
+    uncover 4
+    itob
+    dig 4
+    len
+    itob
+    extract 6 2
+    uncover 5
+    concat
+    dig 4
+    len
+    pushint 16 // 16
+    +
+    dup
+    itob
+    extract 6 2
+    pushbytes 0x0010
+    swap
+    concat
+    dig 5
+    len
+    uncover 2
+    +
+    dup
+    itob
+    extract 6 2
+    uncover 2
+    swap
+    concat
+    dig 4
+    len
+    uncover 2
+    +
+    swap
+    uncover 3
+    concat
+    swap
+    itob
+    extract 6 2
+    concat
+    uncover 4
+    concat
+    uncover 3
+    concat
+    uncover 2
+    concat
+    swap
+    concat
+    pushbytes 0x151f7c75
+    swap
+    concat
+    log
+    intc_1 // 1
+    return
+
+main_initialize_route@3:
+    // smart_contracts/contract_algo/contract.algo.ts:10
+    // @abimethod()
+    txn OnCompletion
+    !
+    assert // OnCompletion is not NoOp
+    txn ApplicationID
+    assert // can only call when not creating
+    // smart_contracts/contract_algo/contract.algo.ts:3
+    // export class CollaborationContract extends Contract {
+    txna ApplicationArgs 1
+    extract 2 0
+    txna ApplicationArgs 2
+    extract 2 0
+    txna ApplicationArgs 3
+    extract 2 0
+    txna ApplicationArgs 4
+    btoi
+    txna ApplicationArgs 5
+    extract 2 0
+    // smart_contracts/contract_algo/contract.algo.ts:10
+    // @abimethod()
+    callsub initialize
+    intc_1 // 1
+    return
+
+main_bare_routing@7:
+    // smart_contracts/contract_algo/contract.algo.ts:3
+    // export class CollaborationContract extends Contract {
+    txn OnCompletion
+    bnz main_after_if_else@11
+    txn ApplicationID
+    !
+    assert // can only call when creating
+    intc_1 // 1
+    return
+
+
+// smart_contracts/contract_algo/contract.algo.ts::CollaborationContract.initialize(brandName: bytes, creatorName: bytes, adminName: bytes, contractPrice: uint64, proposalText: bytes) -> void:
+initialize:
+    // smart_contracts/contract_algo/contract.algo.ts:10-17
+    // @abimethod()
+    // public initialize(
+    //   brandName: string,
+    //   creatorName: string,
+    //   adminName: string,
+    //   contractPrice: uint64,
+    //   proposalText: string
+    // ): void {
+    proto 5 0
+    // smart_contracts/contract_algo/contract.algo.ts:4
+    // brandName = GlobalState<string>();
+    bytec_0 // "brandName"
+    // smart_contracts/contract_algo/contract.algo.ts:18
+    // this.brandName.value = brandName;
+    frame_dig -5
+    app_global_put
+    // smart_contracts/contract_algo/contract.algo.ts:5
+    // creatorName = GlobalState<string>();
+    bytec_1 // "creatorName"
+    // smart_contracts/contract_algo/contract.algo.ts:19
+    // this.creatorName.value = creatorName;
+    frame_dig -4
+    app_global_put
+    // smart_contracts/contract_algo/contract.algo.ts:6
+    // adminName = GlobalState<string>();
+    bytec_2 // "adminName"
+    // smart_contracts/contract_algo/contract.algo.ts:20
+    // this.adminName.value = adminName;
+    frame_dig -3
+    app_global_put
+    // smart_contracts/contract_algo/contract.algo.ts:7
+    // contractPrice = GlobalState<uint64>();
+    bytec_3 // "contractPrice"
+    // smart_contracts/contract_algo/contract.algo.ts:21
+    // this.contractPrice.value = contractPrice;
+    frame_dig -2
+    app_global_put
+    // smart_contracts/contract_algo/contract.algo.ts:8
+    // proposalText = GlobalState<string>();
+    bytec 4 // "proposalText"
+    // smart_contracts/contract_algo/contract.algo.ts:22
+    // this.proposalText.value = proposalText;
+    frame_dig -1
+    app_global_put
+    retsub
+
+
+// smart_contracts/contract_algo/contract.algo.ts::CollaborationContract.getDetails() -> bytes, bytes, bytes, uint64, bytes:
+getDetails:
+    // smart_contracts/contract_algo/contract.algo.ts:4
+    // brandName = GlobalState<string>();
+    intc_0 // 0
+    bytec_0 // "brandName"
+    app_global_get_ex
+    assert // check GlobalState exists
+    // smart_contracts/contract_algo/contract.algo.ts:5
+    // creatorName = GlobalState<string>();
+    intc_0 // 0
+    bytec_1 // "creatorName"
+    app_global_get_ex
+    assert // check GlobalState exists
+    // smart_contracts/contract_algo/contract.algo.ts:6
+    // adminName = GlobalState<string>();
+    intc_0 // 0
+    bytec_2 // "adminName"
+    app_global_get_ex
+    assert // check GlobalState exists
+    // smart_contracts/contract_algo/contract.algo.ts:7
+    // contractPrice = GlobalState<uint64>();
+    intc_0 // 0
+    bytec_3 // "contractPrice"
+    app_global_get_ex
+    assert // check GlobalState exists
+    // smart_contracts/contract_algo/contract.algo.ts:8
+    // proposalText = GlobalState<string>();
+    intc_0 // 0
+    bytec 4 // "proposalText"
+    app_global_get_ex
+    assert // check GlobalState exists
+    // smart_contracts/contract_algo/contract.algo.ts:27-33
+    // return [
+    //   this.brandName.value,
+    //   this.creatorName.value,
+    //   this.adminName.value,
+    //   this.contractPrice.value,
+    //   this.proposalText.value,
+    // ];
+    retsub

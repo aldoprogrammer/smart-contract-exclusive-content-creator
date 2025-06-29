@@ -1,14 +1,13 @@
 import { AlgorandClient } from '@algorandfoundation/algokit-utils'
-import { ContractAlgoFactory } from '../artifacts/contract_algo/ContractAlgoClient'
+import { CollaborationContractFactory } from '../artifacts/contract_algo/CollaborationContractClient'
 
-// Below is a showcase of various deployment options you can use in TypeScript Client
 export async function deploy() {
-  console.log('=== Deploying ContractAlgo ===')
+  console.log('=== Deploying CollaborationContract ===')
 
   const algorand = AlgorandClient.fromEnvironment()
   const deployer = await algorand.account.fromEnvironment('DEPLOYER')
 
-  const factory = algorand.client.getTypedAppFactory(ContractAlgoFactory, {
+  const factory = algorand.client.getTypedAppFactory(CollaborationContractFactory, {
     defaultSender: deployer.addr,
   })
 
@@ -23,11 +22,21 @@ export async function deploy() {
     })
   }
 
-  const method = 'hello'  
-  const response = await appClient.send.hello({
-    args: { name: 'world' },
+  // 1. Call initialize with your desired values
+  await appClient.send.initialize({
+    args: {
+      brandName: 'YourBrand',
+      creatorName: 'ContentCreator',
+      adminName: 'AdminName',
+      contractPrice: 1000000, // 1 Algo in microAlgos
+      proposalText: 'This is the proposal text.',
+    }
   })
+
+  // 2. Now you can safely call getDetails
+  const response = await appClient.send.getDetails()
   console.log(
-    `Called ${method} on ${appClient.appClient.appName} (${appClient.appClient.appId}) with name = world, received: ${response.return}`,
+    `Called getDetails on ${appClient.appClient.appName} (${appClient.appClient.appId}), received:`,
+    response.return,
   )
 }
